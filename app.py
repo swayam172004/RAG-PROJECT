@@ -204,7 +204,5 @@ if prompt:
 
 st.markdown("""
 <div class='footer'>
-Built with ❤️ using Streamlit • Groq • FAISS • Sentence Transformers
-</div>
+Built by Swayam Sikarwar</div>
 """, unsafe_allow_html=True)
-```
