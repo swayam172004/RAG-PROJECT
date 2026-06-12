@@ -101,40 +101,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# =====================================
-# STATS CARDS
-# =====================================
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown("""
-    <div class='metric-card'>
-    <h2>⚡</h2>
-    <h3>Groq</h3>
-    <p>Ultra Fast Inference</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col2:
-    st.markdown("""
-    <div class='metric-card'>
-    <h2>🧠</h2>
-    <h3>FAISS</h3>
-    <p>Vector Search</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col3:
-    st.markdown("""
-    <div class='metric-card'>
-    <h2>📄</h2>
-    <h3>RAG</h3>
-    <p>Document Intelligence</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-st.markdown("<br>", unsafe_allow_html=True)
 
 # =====================================
 # PDF PROCESSING
