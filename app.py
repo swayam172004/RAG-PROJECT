@@ -1,15 +1,79 @@
+```python
 import streamlit as st
 from RAG_BACKEND import process_pdf, ask_question
 
 st.set_page_config(
     page_title="AI PDF Assistant",
     page_icon="🤖",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Sidebar
+# =====================================
+# CUSTOM CSS
+# =====================================
+
+st.markdown("""
+<style>
+
+.main {
+    background-color: #0E1117;
+}
+
+.stApp {
+    background: linear-gradient(
+        135deg,
+        #0f172a,
+        #111827,
+        #1e293b
+    );
+    color: white;
+}
+
+.hero {
+    padding: 2rem;
+    border-radius: 20px;
+    background: linear-gradient(
+        135deg,
+        #6366f1,
+        #8b5cf6,
+        #ec4899
+    );
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.4);
+}
+
+.metric-card {
+    background: rgba(255,255,255,0.08);
+    padding: 15px;
+    border-radius: 15px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: gray;
+}
+
+.stChatMessage {
+    border-radius: 15px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# =====================================
+# SIDEBAR
+# =====================================
+
 with st.sidebar:
-    st.title("🤖 AI PDF Assistant")
+
+    st.markdown("# 🤖 AI PDF Assistant")
+
+    st.markdown("---")
 
     uploaded_file = st.file_uploader(
         "Upload PDF",
@@ -17,63 +81,130 @@ with st.sidebar:
     )
 
     process_button = st.button(
-        "Process Document"
+        "🚀 Process Document",
+        use_container_width=True
     )
 
-# Main UI
-st.title("📚 RAG Powered PDF Chatbot")
+    st.markdown("---")
+
+    st.success("Groq Connected")
+    st.info("FAISS Vector Store")
+    st.warning("RAG Pipeline Active")
+
+# =====================================
+# HERO SECTION
+# =====================================
 
 st.markdown("""
-Ask questions about your uploaded document.
+<div class='hero'>
+<h1>📚 RAG Powered PDF Chatbot</h1>
+<p>Upload any PDF and chat with your documents using AI</p>
+</div>
+""", unsafe_allow_html=True)
 
-Powered by:
-- Groq
-- FAISS
-- Sentence Transformers
-- Streamlit
-""")
+# =====================================
+# STATS CARDS
+# =====================================
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.markdown("""
+    <div class='metric-card'>
+    <h2>⚡</h2>
+    <h3>Groq</h3>
+    <p>Ultra Fast Inference</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown("""
+    <div class='metric-card'>
+    <h2>🧠</h2>
+    <h3>FAISS</h3>
+    <p>Vector Search</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col3:
+    st.markdown("""
+    <div class='metric-card'>
+    <h2>📄</h2>
+    <h3>RAG</h3>
+    <p>Document Intelligence</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+# =====================================
+# PDF PROCESSING
+# =====================================
 
 if uploaded_file and process_button:
 
-    with st.spinner("Creating embeddings..."):
+    with st.spinner("Creating embeddings and indexing document..."):
+
         process_pdf(uploaded_file)
 
-    st.success("Document indexed successfully!")
+    st.success(
+        "✅ PDF Processed Successfully!"
+    )
+
+# =====================================
+# CHAT HISTORY
+# =====================================
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-for msg in st.session_state.messages:
+for message in st.session_state.messages:
 
-    with st.chat_message(msg["role"]):
-        st.markdown(msg["content"])
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+# =====================================
+# CHAT INPUT
+# =====================================
 
 prompt = st.chat_input(
-    "Ask anything about your PDF..."
+    "Ask anything about your uploaded PDF..."
 )
 
 if prompt:
 
     st.session_state.messages.append(
         {
-            "role":"user",
-            "content":prompt
+            "role": "user",
+            "content": prompt
         }
     )
 
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    with st.spinner("Thinking..."):
-
-        response = ask_question(prompt)
-
     with st.chat_message("assistant"):
-        st.markdown(response)
+
+        with st.spinner("Thinking..."):
+
+            response = ask_question(prompt)
+
+            st.markdown(response)
 
     st.session_state.messages.append(
         {
-            "role":"assistant",
-            "content":response
+            "role": "assistant",
+            "content": response
         }
     )
+
+# =====================================
+# FOOTER
+# =====================================
+
+st.markdown("""
+<div class='footer'>
+Built with ❤️ using Streamlit • Groq • FAISS • Sentence Transformers
+</div>
+""", unsafe_allow_html=True)
+```
