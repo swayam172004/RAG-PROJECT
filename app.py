@@ -1,4 +1,4 @@
-
+```python
 import streamlit as st
 from RAG_BACKEND import process_pdf, ask_question
 
@@ -204,5 +204,7 @@ if prompt:
 
 st.markdown("""
 <div class='footer'>
-Built by Swayam Sikarwar</div>
+Built with ❤️ using Streamlit • Groq • FAISS • Sentence Transformers
+</div>
 """, unsafe_allow_html=True)
+```
