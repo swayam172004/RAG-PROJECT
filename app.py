@@ -1,4 +1,4 @@
-```python
+
 import streamlit as st
 from RAG_BACKEND import process_pdf, ask_question
 
